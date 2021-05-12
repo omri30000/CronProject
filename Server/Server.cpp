@@ -31,9 +31,11 @@ void Server::serve(){
 
                     new_sock << result;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    new_sock << result;
-                    std::this_thread::sleep_for(std::chrono::seconds(2));
-                    new_sock << result;
+
+                    while(data[1] != 0){
+                        new_sock << result;
+                        std::this_thread::sleep_for(std::chrono::seconds(2));
+                    }
                 }
             }
             catch ( std::exception& e) {
