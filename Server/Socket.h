@@ -1,5 +1,5 @@
 //
-// Created by omrizaiman on 12/05/2021.
+// Created by Omri Zaiman on 12/05/2021.
 //
 
 #ifndef SERVER_SOCKET_H
@@ -19,7 +19,7 @@
 
 const int MAXHOSTNAME = 200;
 const int MAX_CONNECTIONS = 5;
-const int MAXRECV = 6; // 6 bytes
+const int MAXRECV = 6; // 6 bytes - message's size
 
 using std::vector;
 using byte = unsigned char;
@@ -37,7 +37,7 @@ public:
     void accept(Socket&) const noexcept(false);
 
     // Client initialization
-    bool connect (const std::string host, const int port);
+    bool connect (const std::string& host, int port);
 
     // Data Transmission
     void send ( const std::string& ) const;
@@ -45,7 +45,7 @@ public:
     int recv ( vector<byte>& vec ) const;
 
 
-    void set_non_blocking ( const bool );
+    void set_non_blocking ( bool ) const;
 
     [[nodiscard]] bool is_valid() const { return m_sock != -1; }
 

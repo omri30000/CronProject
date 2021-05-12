@@ -1,5 +1,5 @@
 //
-// Created by omrizaiman on 12/05/2021.
+// Created by Omri Zaiman on 12/05/2021.
 //
 
 #include "Socket.h"
@@ -125,7 +125,7 @@ int Socket::recv(vector<byte>& vec) const{
     }
 }
 
-bool Socket::connect ( const std::string host, const int port )
+bool Socket::connect (const std::string& host, int port )
 {
     if ( ! is_valid() ) return false;
 
@@ -144,7 +144,7 @@ bool Socket::connect ( const std::string host, const int port )
         return false;
 }
 
-void Socket::set_non_blocking ( const bool b )
+void Socket::set_non_blocking ( bool b ) const
 {
     int opts;
 

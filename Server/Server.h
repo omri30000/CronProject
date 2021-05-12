@@ -1,5 +1,5 @@
 //
-// Created by omrizaiman on 12/05/2021.
+// Created by Omri Zaiman on 12/05/2021.
 //
 
 #ifndef SERVER_SERVER_H
@@ -21,7 +21,6 @@ public:
     void serve() noexcept(false);
 
 protected:
-
     int listeningPort;
 
     static std::string communicate(int commandId, int delay, bool repeat);
