@@ -9,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <map>
+#include <cmath>
 #include <thread>
 #include <sys/utsname.h>
 
@@ -28,6 +29,8 @@ protected:
     static std::string getTime();
     static std::string getOSVersion() noexcept(false);
     static std::string getHostsFile();
+
+    static int base256ToInt(vector<byte>& vec);
 };
 
 #endif //SERVER_SERVER_H

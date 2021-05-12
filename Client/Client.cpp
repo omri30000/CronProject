@@ -36,13 +36,13 @@ void Client::communicate(int port){
         }
         catch ( std::exception& e )
         {
-            std::cout << "Exception was caught:" << e.what() << "\n";
+            std::cout << "Exception was caught: " << e.what() << "\n";
         }
 
     }
     catch ( std::exception& e )
     {
-        std::cout << "Exception was caught:" << e.what() << "\n";
+        std::cout << "Exception was caught: " << e.what() << "\n";
     }
 }
 
@@ -73,7 +73,7 @@ vector<byte> Client::castToBase256(int number) noexcept(false){
         throw std::runtime_error("number is over the limit of 4 bytes");
     }
 
-    for (int i = vec.size() - 1; i >= 0; i--)
+    for (int i = (int)vec.size() - 1; i >= 0; i--)
     {
         vec[i] = number % BASE;
         number /= BASE;

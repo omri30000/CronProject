@@ -23,18 +23,22 @@ void Server::serve(){
             {
                 while ( true )
                 {
-                    vector<byte> data;
+                    vector<byte> data, time;
+                    int secondsDelay = 0;
 
                     std::basic_string<char> result;
                     new_sock >> data;
+
+                    time = {data.begin() + 2, data.end()};
+                    secondsDelay = base256ToInt(time);
+
                     result = Server::communicate(data[0],0,false);
 
                     new_sock << result;
-                    std::this_thread::sleep_for(std::chrono::seconds(2));
 
                     while(data[1] != 0){
+                        std::this_thread::sleep_for(std::chrono::seconds(secondsDelay));
                         new_sock << result;
-                        std::this_thread::sleep_for(std::chrono::seconds(2));
                     }
                 }
             }
@@ -102,5 +106,23 @@ std::string Server::getOSVersion(){
 */
 std::string Server::getHostsFile(){
     return "hosts file";
+}
+
+
+/*
+The static method will help casting a bytes' vector into an integer
+input: a vector of bytes
+output: the integer that is represented in the given vector
+*/
+int Server::base256ToInt(vector<byte> &vec) {
+    const int BASE = 256;
+    const int BYTES_AMOUNT = 4;
+    int time = 0;
+
+    for (int i = 0; i < BYTES_AMOUNT; i++){
+        time += (int)std::pow(BASE,BYTES_AMOUNT - 1 - i) * (int)vec[i];
+    }
+
+    return time;
 }
 
