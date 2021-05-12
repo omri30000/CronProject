@@ -12,6 +12,6 @@ add photo
 ## Application layer protocol
 describe
 
-## Cross-requirements features
+## Beyond requirements features
 * JSON
 * default parameters
