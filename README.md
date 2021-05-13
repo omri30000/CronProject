@@ -10,6 +10,10 @@ In order to use the engine, follow the instructions:
     * y - number between 0 and 4294967296, the delay in which the server will respond (in seconds).
     * z - true/false, determines whether the response have to be repeatitive.
 
+#### Supported commands
+--comand-id 1 : Get server time
+--comand-id 2 : Get server OS version
+--comand-id 3 : Get server hosts file
 
 
 ## UML
