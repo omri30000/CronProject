@@ -11,9 +11,11 @@
 #include <map>
 #include <cmath>
 #include <thread>
+#include <queue>
 #include <sys/utsname.h>
 
 #include "ServerSocket.h"
+#define threadsAmount 5
 
 class Server {
 public:
@@ -23,7 +25,7 @@ public:
 protected:
     int listeningPort;
 
-    static void communicate(ServerSocket& sock);
+    static void communicate(ServerSocket* sock);
     static std::string getTime();
     static std::string getOSVersion() noexcept(false);
     static std::string getHostsFile();

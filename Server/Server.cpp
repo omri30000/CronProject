@@ -16,9 +16,11 @@ void Server::serve(){
 
         while (true)
         {
-            ServerSocket new_sock;
-            listenSock.accept (new_sock);
-            Server::communicate(new_sock);
+            auto new_sock = new ServerSocket();
+            listenSock.accept (*new_sock);
+            std::thread t(&Server::communicate, new_sock);
+
+            t.detach();
         }
     }
     catch ( std::exception& e )
@@ -30,7 +32,7 @@ void Server::serve(){
 /*
 
 */
-void Server::communicate(ServerSocket& sock){
+void Server::communicate(ServerSocket* sock){
     try
     {
         while ( true )
@@ -40,7 +42,7 @@ void Server::communicate(ServerSocket& sock){
             int secondsDelay = 0;
 
             std::basic_string<char> result;
-            sock >> data;
+            *sock >> data;
 
             time = {data.begin() + 2, data.end()};
             secondsDelay = base256ToInt(time);
@@ -59,15 +61,16 @@ void Server::communicate(ServerSocket& sock){
                     break;
             }
 
-            sock << response;
+            *sock << response;
 
             while(data[1] != 0){
                 std::this_thread::sleep_for(std::chrono::seconds(secondsDelay));
-                sock << response;
+                *sock << response;
             }
         }
     }
     catch ( std::exception& e) {
+        delete sock;
         std::cerr << e.what() << std::endl;
     }
 }
