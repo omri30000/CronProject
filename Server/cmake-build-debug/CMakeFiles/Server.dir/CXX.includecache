@@ -23,6 +23,10 @@ cmath
 -
 thread
 -
+memory
+-
+mutex
+-
 queue
 -
 sys/utsname.h

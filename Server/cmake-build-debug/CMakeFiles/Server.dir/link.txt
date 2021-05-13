@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/Server.dir/Socket.cpp.o CMakeFiles/Server.dir/ServerSocket.cpp.o CMakeFiles/Server.dir/main.cpp.o CMakeFiles/Server.dir/Server.cpp.o  -o Server 
+/usr/bin/c++   -pthread -g   CMakeFiles/Server.dir/Socket.cpp.o CMakeFiles/Server.dir/ServerSocket.cpp.o CMakeFiles/Server.dir/main.cpp.o CMakeFiles/Server.dir/Server.cpp.o  -o Server 

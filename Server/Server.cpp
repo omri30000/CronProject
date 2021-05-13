@@ -6,6 +6,13 @@
 
 Server::Server(int port){
     this->listeningPort = port;
+
+    //initialize thread pool
+    for(int i = 0; i < threadsAmount; i++){
+        auto t = new std::thread(&Server::threadFunction, this);
+        this->pool.push_back(t);
+        t->detach();
+    }
 }
 
 void Server::serve(){
@@ -16,11 +23,12 @@ void Server::serve(){
 
         while (true)
         {
-            auto new_sock = new ServerSocket();
-            listenSock.accept (*new_sock);
-            std::thread t(&Server::communicate, new_sock);
+            std::shared_ptr<ServerSocket> pNewSock;
+            pNewSock = std::make_shared<ServerSocket>();
+            listenSock.accept (*pNewSock);
 
-            t.detach();
+            const std::lock_guard<std::mutex> lock(m_mutex);
+            this->connections.push(pNewSock);
         }
     }
     catch ( std::exception& e )
@@ -32,7 +40,7 @@ void Server::serve(){
 /*
 
 */
-void Server::communicate(ServerSocket* sock){
+void Server::communicate(std::shared_ptr<ServerSocket> sock){
     try
     {
         while ( true )
@@ -70,7 +78,6 @@ void Server::communicate(ServerSocket* sock){
         }
     }
     catch ( std::exception& e) {
-        delete sock;
         std::cerr << e.what() << std::endl;
     }
 }
@@ -123,5 +130,20 @@ int Server::base256ToInt(vector<byte> &vec) {
     }
 
     return time;
+}
+
+[[noreturn]] void Server::threadFunction() {
+    while (true){
+        m_mutex.lock();
+        if (!this->connections.empty()){
+            std::shared_ptr<ServerSocket> sock = this->connections.front();
+            this->connections.pop();
+            m_mutex.unlock();
+            communicate(sock);
+        }
+        else{
+            m_mutex.unlock();
+        }
+    }
 }
 

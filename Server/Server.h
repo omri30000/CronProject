@@ -11,11 +11,14 @@
 #include <map>
 #include <cmath>
 #include <thread>
+#include <condition_variable>
+#include <memory>
+#include <mutex>
 #include <queue>
 #include <sys/utsname.h>
 
 #include "ServerSocket.h"
-#define threadsAmount 5
+#define threadsAmount 3
 
 class Server {
 public:
@@ -23,9 +26,15 @@ public:
     void serve() noexcept(false);
 
 protected:
+    std::mutex m_mutex;
+    std::condition_variable m_cv;
+
+    std::queue<std::shared_ptr<ServerSocket>> connections;
+    std::vector<std::thread*> pool;
     int listeningPort;
 
-    static void communicate(ServerSocket* sock);
+    [[noreturn]] void threadFunction();
+    static void communicate(std::shared_ptr<ServerSocket> sock);
     static std::string getTime();
     static std::string getOSVersion() noexcept(false);
     static std::string getHostsFile();
