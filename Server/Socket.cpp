@@ -17,6 +17,11 @@ Socket::~Socket()
     if (m_sock != ERROR_CODE) ::close ( m_sock );
 }
 
+/*
+The method is responsible for creating a new socket
+input: none
+output: none
+*/
 void Socket::create()
 {
     this->m_sock = socket (AF_INET,SOCK_STREAM,0);
@@ -30,7 +35,11 @@ void Socket::create()
         throw SocketException("Could not create socket");
 }
 
-
+/*
+The method is responsible for binding the listening sock with the IP and port that it should listen to
+input: ip and port to be bound with
+output: none
+*/
 void Socket::bind (const std::string ip, int port)
 {
     m_addr.sin_family = AF_INET;
@@ -45,7 +54,11 @@ void Socket::bind (const std::string ip, int port)
     }
 }
 
-
+/*
+The method sets this socket object in listening mode
+input: none
+output: none
+*/
 void Socket::listen() const
 {
     int listen_return = ::listen (m_sock, MAX_CONNECTIONS);
@@ -56,7 +69,11 @@ void Socket::listen() const
     }
 }
 
-
+/*
+When in listening mode, the method is responsible for accepting a new client
+input: the new socket to accept
+output: none
+*/
 void Socket::accept ( Socket& new_socket ) const
 {
     int addr_length = sizeof ( m_addr );
@@ -66,7 +83,11 @@ void Socket::accept ( Socket& new_socket ) const
         throw SocketException("Could not accept socket.");
 }
 
-
+/*
+The method is responsible for sending data to the other entity.
+input: a string to pass to the other entity
+output: none
+*/
 void Socket::send (const std::string& s) const
 {
     int status = ::send (m_sock, s.c_str(), s.size(), MSG_NOSIGNAL);
@@ -76,7 +97,11 @@ void Socket::send (const std::string& s) const
     }
 }
 
-
+/*
+The method is responsible for receiving data from the other entity.
+input: a string reference to fill with data
+output: 0 for failure, positive numbers for success (the amount of bytes that was received)
+*/
 int Socket::recv(std::string& s) const
 {
     char buf [ MAXRECV + 1 ];
@@ -103,6 +128,11 @@ int Socket::recv(std::string& s) const
     }
 }
 
+/*
+The method is responsible for receiving data from the other entity.
+input: a vector of bytes reference to fill with data
+output: 0 for failure, positive numbers for success (the amount of bytes that was received)
+*/
 int Socket::recv(vector<byte>& vec) const{
     char buf [MAXRECV];
 
@@ -125,23 +155,29 @@ int Socket::recv(vector<byte>& vec) const{
     }
 }
 
-bool Socket::connect (const std::string& host, int port )
+/*
+The method is responsible for the connection with a new entity (socket)
+ using the IP address and port.
+input: IP address and port of the other entity
+output: none
+*/
+void Socket::connect ( const std::string host, const int port )
 {
-    if ( ! is_valid() ) return false;
+    if (m_sock == ERROR_CODE)
+        throw SocketException("socket disconnected");
 
     m_addr.sin_family = AF_INET;
     m_addr.sin_port = htons ( port );
 
-    int status = inet_pton ( AF_INET, host.c_str(), &m_addr.sin_addr );
+    int status = inet_pton(AF_INET, host.c_str(), &m_addr.sin_addr);
 
-    if ( errno == EAFNOSUPPORT ) return false;
+    if (status == EAFNOSUPPORT)
+        throw SocketException("Address family not supported by protocol");
 
     status = ::connect ( m_sock, ( sockaddr * ) &m_addr, sizeof ( m_addr ) );
 
-    if ( status == 0 )
-        return true;
-    else
-        return false;
+    if (status != 0)
+        throw SocketException("Error in connection with the server");
 }
 
 void Socket::set_non_blocking ( bool b ) const

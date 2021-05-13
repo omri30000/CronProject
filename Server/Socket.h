@@ -37,7 +37,7 @@ public:
     void accept(Socket&) const noexcept(false);
 
     // Client initialization
-    bool connect (const std::string& host, int port);
+    void connect (const std::string host, const int port);
 
     // Data Transmission
     void send ( const std::string& ) const;
