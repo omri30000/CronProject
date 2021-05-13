@@ -19,7 +19,7 @@ add photo
 describe
 
 ## Self-implemented thread-pool
-The server is capble of communicating with a limited amount of clients simultaneously, that amount can be modified via the server's configuration file. let N be the maximum amount of clients. When being run, the server creates N threads that can accept clients into a conversation. When there are already N active clients, the N+1th client will wait until another one will disconnect. Once disconnected, the thread that was responsible for this client will be able to take care of the new one.
+The server is capble of communicating with a limited amount of clients simultaneously, that amount can be modified via the server's configuration file. Let N be the maximum amount of clients. When being run, the server creates N threads that can accept clients into a conversation. When there are already N active clients, the N+1th client will wait until another one will disconnect. Once disconnected, the thread that was responsible for this client will be able to take care of the new one.
 
 ## Beyond requirements features
 * Configuration files written in JSON.
