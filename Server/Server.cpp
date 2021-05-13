@@ -42,12 +42,14 @@ void Server::serve(){
 }
 
 /*
-
+the method is responsible for communication of the server with a single client (via given socket)
+input: the conversation socket with the client
+output: none
 */
 void Server::communicate(std::shared_ptr<ServerSocket> sock){
     try
     {
-        while ( true )
+        while (true)
         {
             vector<byte> data, time;
             std::string response;
@@ -73,6 +75,7 @@ void Server::communicate(std::shared_ptr<ServerSocket> sock){
                     break;
             }
 
+            std::this_thread::sleep_for(std::chrono::seconds(secondsDelay));
             *sock << response;
 
             while(data[1] != 0){
@@ -112,10 +115,17 @@ std::string Server::getOSVersion(){
 }
 
 /*
-
+The method will read the content of the machine's hosts file
+input: none
+output: the content of the server's hosts file
 */
 std::string Server::getHostsFile(){
-    return "hosts file";
+    std::ifstream ifs("/etc/hosts");
+    std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                         (std::istreambuf_iterator<char>()    ) );
+
+
+    return content;
 }
 
 

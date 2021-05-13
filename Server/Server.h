@@ -14,6 +14,7 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <fstream>
 #include <queue>
 #include <sys/utsname.h>
 
