@@ -161,7 +161,7 @@ The method is responsible for the connection with a new entity (socket)
 input: IP address and port of the other entity
 output: none
 */
-void Socket::connect ( const std::string host, const int port )
+void Socket::connect(const std::string host, const int port)
 {
     if (m_sock == ERROR_CODE)
         throw SocketException("socket disconnected");
@@ -178,26 +178,4 @@ void Socket::connect ( const std::string host, const int port )
 
     if (status != 0)
         throw SocketException("Error in connection with the server");
-}
-
-void Socket::set_non_blocking ( bool b ) const
-{
-    int opts;
-
-    opts = fcntl ( m_sock,
-                   F_GETFL );
-
-    if ( opts < 0 )
-    {
-        return;
-    }
-
-    if ( b )
-        opts = ( opts | O_NONBLOCK );
-    else
-        opts = ( opts & ~O_NONBLOCK );
-
-    fcntl ( m_sock,
-            F_SETFL,opts );
-
 }

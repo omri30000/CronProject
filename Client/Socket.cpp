@@ -4,7 +4,6 @@
 
 #include "Socket.h"
 #include <cerrno>
-#include <fcntl.h>
 
 
 Socket::Socket() : m_sock (ERROR_CODE)
@@ -148,7 +147,7 @@ The method is responsible for the connection with a new entity (socket)
 input: IP address and port of the other entity
 output: none
 */
-void Socket::connect ( const std::string host, const int port )
+void Socket::connect(const std::string host, const int port)
 {
     if (m_sock == ERROR_CODE)
         throw SocketException("socket disconnected");
