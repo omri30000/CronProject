@@ -19,11 +19,10 @@
 #include <sys/utsname.h>
 
 #include "ServerSocket.h"
-#define threadsAmount 3
 
 class Server {
 public:
-    explicit Server(std::string ip, int port) noexcept(false);
+    explicit Server(std::string ip, int port, int clientsAmount) noexcept(false);
     void serve() noexcept(false);
 
 protected:
@@ -34,6 +33,7 @@ protected:
     std::vector<std::thread*> m_pool;
     int m_listeningPort;
     std::string m_ip;
+    int m_threadsAmount;
 
     [[noreturn]] void threadFunction();
     static void communicate(std::shared_ptr<ServerSocket> sock);

@@ -3,12 +3,13 @@
 //
 #include "Server.h"
 
-Server::Server(std::string ip, int port){
+Server::Server(std::string ip, int port, int clientsAmount){
+    this->m_threadsAmount = clientsAmount;
     this->m_listeningPort = port;
     this->m_ip = ip;
 
     //initialize thread m_pool
-    for(int i = 0; i < threadsAmount; i++){
+    for(int i = 0; i < this->m_threadsAmount; i++){
         auto t = new std::thread(&Server::threadFunction, this);
         this->m_pool.push_back(t);
         t->detach();
