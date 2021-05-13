@@ -22,15 +22,23 @@ a request from a client to the server is basically a buffer of 6 bytes (with ind
 * index 1 - a byte which determines whether the response should be repeatitive (0 - false, 1 - true).
 * index 2 to 5 - 4 bytes represents the required delay (in seconds).
 
-For example:
-*photo*
+For example: 
+<br>
+![request image](/request.jpeg) 
+<br>
 In the request above:
 * command identifier - 1
 * repeat - true
 * delay - 15 seconds
 
+#### Future plans
+In the near future I am planning on upgrading the protocol to consume less memory and be encrypted
+
+### Response (server to client)
+Since all the responses should provide strings, and due to time limitation, I decided to pass the string as is from the server to the client. 
+
+#### Future plans
+I would like to deliver the hosts file from the server as a file and not as a string. Than the client will be able to easily save the file in it's hard drive.
+
 ## Self-implemented thread-pool
 The server is capble of communicating with a limited amount of clients simultaneously, that amount can be modified via the server's configuration file. Let N be the maximum amount of clients. When being run, the server creates N threads that can accept clients into a conversation. When there are already N active clients, the N+1th client will wait until another one will disconnect. Once disconnected, the thread that was responsible for this client will be able to take care of the new one.
-
-## Beyond requirements features
-* default parameters.
