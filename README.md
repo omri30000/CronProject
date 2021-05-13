@@ -11,13 +11,9 @@ In order to use the engine, follow the instructions:
     * z - true/false, determines whether the response have to be repeatitive.
 
 #### Supported commands
---comand-id 1 : Get server time
---comand-id 2 : Get server OS version
---comand-id 3 : Get server hosts file
-
-
-## UML
-add photo
+--comand-id 1 : Get server time <br>
+--comand-id 2 : Get server OS version <br>
+--comand-id 3 : Get server hosts file <br>
 
 ## Application layer protocol
 ### Request (client to server)
