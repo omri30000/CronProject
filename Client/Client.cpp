@@ -6,7 +6,9 @@
 #include "Client.h"
 
 /*
-
+The constructor of a client object
+input: the client's command id, delay in seconds, and repetition indicator
+output: new object of client class
 */
 Client::Client(std::string commandIdentifier, std::string delayFactor, std::string repeat){
 
@@ -20,7 +22,9 @@ Client::Client(std::string commandIdentifier, std::string delayFactor, std::stri
 }
 
 /*
-
+The method is responsible for communicating with the server
+input: ip and port of the server
+output: none
 */
 void Client::communicate(std::string ip, int port){
     try
@@ -51,6 +55,11 @@ void Client::communicate(std::string ip, int port){
     }
 }
 
+/*
+the function will cast the client's parameters into a request message of the protocol
+input: none
+output: a valid response
+*/
 vector<byte> Client::createMessage() const {
     vector<byte> data;
     vector<byte> time = Client::castToBase256(this->m_delay);
@@ -87,6 +96,11 @@ vector<byte> Client::castToBase256(int number) noexcept(false){
     return vec;
 }
 
+/*
+The function will check if the input of the user is valid
+input: command id, delay in seconds, repeat ("true" or "false")
+output: true or false if the input was valid
+*/
 bool Client::isInputValid(std::string commandIdentifier, std::string delayFactor, std::string repeat) {
 
     for (char const &c : commandIdentifier) {
