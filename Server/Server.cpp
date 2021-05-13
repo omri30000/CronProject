@@ -4,13 +4,13 @@
 #include "Server.h"
 
 Server::Server(std::string ip, int port){
-    this->listeningPort = port;
+    this->m_listeningPort = port;
     this->m_ip = ip;
 
-    //initialize thread pool
+    //initialize thread m_pool
     for(int i = 0; i < threadsAmount; i++){
         auto t = new std::thread(&Server::threadFunction, this);
-        this->pool.push_back(t);
+        this->m_pool.push_back(t);
         t->detach();
     }
 }
@@ -19,7 +19,7 @@ void Server::serve(){
     try
     {
         // Create the socket
-        ServerSocket listenSock (this->m_ip, this->listeningPort);
+        ServerSocket listenSock (this->m_ip, this->m_listeningPort);
 
         while (true)
         {
@@ -29,7 +29,7 @@ void Server::serve(){
 
             {
                 std::lock_guard<std::mutex> lock(m_mutex);
-                this->connections.push(pNewSock);
+                this->m_connections.push(pNewSock);
             }
 
             this->m_cv.notify_one();
@@ -149,12 +149,12 @@ int Server::base256ToInt(vector<byte> &vec) {
 [[noreturn]] void Server::threadFunction() {
     while (true){
         std::unique_lock<std::mutex> lock(m_mutex);
-        if (this->connections.empty()){
+        if (this->m_connections.empty()){
             m_cv.wait(lock);
         }
 
-        std::shared_ptr<ServerSocket> sock = this->connections.front();
-        this->connections.pop();
+        std::shared_ptr<ServerSocket> sock = this->m_connections.front();
+        this->m_connections.pop();
         lock.unlock();
         communicate(sock);
     }

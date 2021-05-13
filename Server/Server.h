@@ -30,9 +30,9 @@ protected:
     std::mutex m_mutex;
     std::condition_variable m_cv;
 
-    std::queue<std::shared_ptr<ServerSocket>> connections;
-    std::vector<std::thread*> pool;
-    int listeningPort;
+    std::queue<std::shared_ptr<ServerSocket>> m_connections;
+    std::vector<std::thread*> m_pool;
+    int m_listeningPort;
     std::string m_ip;
 
     [[noreturn]] void threadFunction();
