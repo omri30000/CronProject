@@ -27,8 +27,12 @@ void Server::serve(){
             pNewSock = std::make_shared<ServerSocket>();
             listenSock.accept (*pNewSock);
 
-            const std::lock_guard<std::mutex> lock(m_mutex);
-            this->connections.push(pNewSock);
+            {
+                std::lock_guard<std::mutex> lock(m_mutex);
+                this->connections.push(pNewSock);
+            }
+
+            this->m_cv.notify_one();
         }
     }
     catch ( std::exception& e )
@@ -134,16 +138,15 @@ int Server::base256ToInt(vector<byte> &vec) {
 
 [[noreturn]] void Server::threadFunction() {
     while (true){
-        m_mutex.lock();
-        if (!this->connections.empty()){
-            std::shared_ptr<ServerSocket> sock = this->connections.front();
-            this->connections.pop();
-            m_mutex.unlock();
-            communicate(sock);
+        std::unique_lock<std::mutex> lock(m_mutex);
+        if (this->connections.empty()){
+            m_cv.wait(lock);
         }
-        else{
-            m_mutex.unlock();
-        }
+
+        std::shared_ptr<ServerSocket> sock = this->connections.front();
+        this->connections.pop();
+        lock.unlock();
+        communicate(sock);
     }
 }
 
