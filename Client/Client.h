@@ -10,7 +10,7 @@
 
 class Client {
 public:
-    Client(int commandIdentifier, int delayFactor, bool repeat);
+    Client(std::string commandIdentifier, std::string delayFactor, std::string repeat);
     void communicate(std::string ip, int port);
 
 
@@ -21,6 +21,7 @@ protected:
 
     [[nodiscard]] vector<byte> createMessage() const;
     static vector<byte> castToBase256(int number) noexcept(false);
+    static bool isInputValid(std::string commandIdentifier, std::string delayFactor, std::string repeat);
 };
 
 

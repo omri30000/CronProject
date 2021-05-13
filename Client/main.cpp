@@ -15,21 +15,22 @@ enum cBoolean {FALSE, TRUE};
 const int PARAMS_AMOUNT = 7;
 
 int main(int argc, char** argv){
-    std::map<std::string, int> parameters;
 
     if (argc != PARAMS_AMOUNT){
-        std::cerr << "Invalid parameters. read the README file!";
+        std::cerr << "Invalid format/parameters. read the README.md file!";
         return -1;
     }
+    std::string commandId(argv[FIRST_PARAM]);
+    std::string delayFactor(argv[SECOND_PARAM]);
+    std::string repeat(argv[THIRD_PARAM]);
 
-    parameters[std::string(argv[FIRST_FLAG])] = stoi(std::string(argv[FIRST_PARAM]));
-    parameters[std::string(argv[SECOND_FLAG])] = stoi(std::string(argv[SECOND_PARAM]));
-    parameters[std::string(argv[THIRD_FLAG])] = std::string(argv[THIRD_PARAM]) == "true" ? TRUE : FALSE;
-
-    Client client(parameters[std::string(argv[FIRST_FLAG])], parameters[std::string(argv[SECOND_FLAG])],
-                  parameters[std::string(argv[THIRD_FLAG])] == TRUE);
-
-    client.communicate(IP, PORT);
+    try{
+        Client client(commandId, delayFactor, repeat);
+        client.communicate(IP, PORT);
+    }
+    catch (std::exception& e){
+        std::cerr << e.what() << std::endl;
+    }
 
     return 0;
 }

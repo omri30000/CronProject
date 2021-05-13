@@ -8,10 +8,15 @@
 /*
 
 */
-Client::Client(int commandIdentifier, int delayFactor, bool repeat){
-    m_commandId = commandIdentifier;
-    m_delay = delayFactor;
-    m_repeat = repeat;
+Client::Client(std::string commandIdentifier, std::string delayFactor, std::string repeat){
+
+    if (!Client::isInputValid(commandIdentifier, delayFactor, repeat)){
+        throw std::runtime_error("Invalid format/parameters. read the README.md file!");
+    }
+
+    m_commandId = std::stoi(commandIdentifier);
+    m_delay = std::stoi(delayFactor);
+    m_repeat = repeat == "true";
 }
 
 /*
@@ -80,4 +85,20 @@ vector<byte> Client::castToBase256(int number) noexcept(false){
     }
 
     return vec;
+}
+
+bool Client::isInputValid(std::string commandIdentifier, std::string delayFactor, std::string repeat) {
+
+    for (char const &c : commandIdentifier) {
+        if (std::isdigit(c) == 0) return false;
+    }
+
+    for (char const &c : delayFactor) {
+        if (std::isdigit(c) == 0) return false;
+    }
+
+    if (!(repeat == "true" || repeat == "false"))
+        return false;
+
+    return true;
 }
