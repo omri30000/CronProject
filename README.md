@@ -1,6 +1,8 @@
 # CronProject
 Omri Zaiman's application task for Aqua Security. Client and server programs that communicates via sockets. The client provides a command line interface to register cron tasks that are executed in the server (cron engine).
 
+The project was written in Jetbrain's Clion environment on Linux Ubuntu 20.04.1.
+
 ## How to use?
 In order to use the engine, follow the instructions:
 1. Modify the PORT and IP in the server and client's main.cpp files (Optional - for remote hosting) and make sure that the server is up.
