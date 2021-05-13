@@ -16,6 +16,11 @@ Server::Server(std::string ip, int port, int clientsAmount){
     }
 }
 
+/*
+This method is a starter for the server. when being called, the server becomes available for clients
+input: none
+output: none
+*/
 void Server::serve(){
     try
     {
@@ -129,7 +134,6 @@ std::string Server::getHostsFile(){
     return content;
 }
 
-
 /*
 The static method will help casting a bytes' vector into an integer
 input: a vector of bytes
@@ -147,6 +151,11 @@ int Server::base256ToInt(vector<byte> &vec) {
     return time;
 }
 
+/*
+This is a working thread belongs to the thread pool (worker). it waits until there is a job to do.
+input: none
+output: none
+*/
 [[noreturn]] void Server::threadFunction() {
     while (true){
         std::unique_lock<std::mutex> lock(m_mutex);
