@@ -10,9 +10,9 @@ Server::Server(std::string ip, int port, int clientsAmount){
 
     //initialize thread m_pool
     for(int i = 0; i < this->m_threadsAmount; i++){
-        auto t = new std::thread(&Server::threadFunction, this);
-        this->m_pool.push_back(t);
-        t->detach();
+        std::shared_ptr<std::thread> pNewThread = std::make_shared<std::thread>(&Server::threadFunction, this);
+        this->m_pool.push_back(pNewThread);
+        pNewThread->detach();
     }
 }
 

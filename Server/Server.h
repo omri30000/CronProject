@@ -30,7 +30,7 @@ protected:
     std::condition_variable m_cv;
 
     std::queue<std::shared_ptr<ServerSocket>> m_connections;
-    std::vector<std::thread*> m_pool;
+    std::vector<std::shared_ptr<std::thread>> m_pool;
     int m_listeningPort;
     std::string m_ip;
     int m_threadsAmount;
