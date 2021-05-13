@@ -7,6 +7,9 @@
 #include <iostream>
 #include <string>
 
+#define PORT 30000
+#define IP "127.0.0.1"
+
 enum positions {NAME, FIRST_FLAG, FIRST_PARAM, SECOND_FLAG, SECOND_PARAM, THIRD_FLAG, THIRD_PARAM};
 enum cBoolean {FALSE, TRUE};
 const int PARAMS_AMOUNT = 7;
@@ -26,37 +29,7 @@ int main(int argc, char** argv){
     Client client(parameters[std::string(argv[FIRST_FLAG])], parameters[std::string(argv[SECOND_FLAG])],
                   parameters[std::string(argv[THIRD_FLAG])] == TRUE);
 
-    client.communicate(30000);
+    client.communicate(IP, PORT);
 
     return 0;
 }
-
-//int mainly (int argc, char** argv)
-//{
-//    try
-//    {
-//        ClientSocket client_socket ( "localhost", 30000 );
-//
-//        std::string reply;
-//
-//        try
-//        {
-//            while(true){
-//                std::string input;
-//                std::cin >> input;
-//                client_socket << input;
-//                client_socket >> reply;
-//
-//                std::cout << "We received this response from the server:\n\"" << reply << "\"\n";
-//            }
-//        }
-//        catch ( SocketException& ) {}
-//
-//    }
-//    catch ( std::exception& e )
-//    {
-//        std::cout << "Exception was caught:" << e.what() << "\n";
-//    }
-//
-//    return 0;
-//}

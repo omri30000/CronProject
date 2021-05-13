@@ -11,7 +11,7 @@
 class Client {
 public:
     Client(int commandIdentifier, int delayFactor, bool repeat);
-    void communicate(int port);
+    void communicate(std::string ip, int port);
 
 
 protected:

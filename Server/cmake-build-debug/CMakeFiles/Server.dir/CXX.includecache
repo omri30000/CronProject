@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/omrizaiman/Documents/AquaChallenge/Server/Server.cpp
+Server.h
+/home/omrizaiman/Documents/AquaChallenge/Server/Server.h
+
 /home/omrizaiman/Documents/AquaChallenge/Server/Server.h
 string
 -
@@ -73,6 +77,4 @@ utility
 /home/omrizaiman/Documents/AquaChallenge/Server/main.cpp
 Server.h
 /home/omrizaiman/Documents/AquaChallenge/Server/Server.h
-string
--
 

@@ -3,11 +3,13 @@
 //
 
 #include "Server.h"
-#include <string>
+
+#define IP "127.0.0.1"
+#define PORT 30000
 
 int main(){
     std::cout << "running....\n";
-    Server server("127.0.0.1", 30000);
+    Server server(IP, PORT);
     server.serve();
     return 0;
 }

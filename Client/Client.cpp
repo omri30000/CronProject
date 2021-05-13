@@ -17,10 +17,10 @@ Client::Client(int commandIdentifier, int delayFactor, bool repeat){
 /*
 
 */
-void Client::communicate(int port){
+void Client::communicate(std::string ip, int port){
     try
     {
-        ClientSocket client_socket ( "localhost", port );
+        ClientSocket client_socket ( ip, port );
 
         std::string reply;
 
