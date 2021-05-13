@@ -23,8 +23,7 @@ public:
 protected:
     int listeningPort;
 
-    static std::string communicate(int commandId, int delay, bool repeat);
-
+    static void communicate(ServerSocket& sock);
     static std::string getTime();
     static std::string getOSVersion() noexcept(false);
     static std::string getHostsFile();

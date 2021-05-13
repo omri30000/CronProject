@@ -18,33 +18,7 @@ void Server::serve(){
         {
             ServerSocket new_sock;
             listenSock.accept (new_sock);
-
-            try
-            {
-                while ( true )
-                {
-                    vector<byte> data, time;
-                    int secondsDelay = 0;
-
-                    std::basic_string<char> result;
-                    new_sock >> data;
-
-                    time = {data.begin() + 2, data.end()};
-                    secondsDelay = base256ToInt(time);
-
-                    result = Server::communicate(data[0],0,false);
-
-                    new_sock << result;
-
-                    while(data[1] != 0){
-                        std::this_thread::sleep_for(std::chrono::seconds(secondsDelay));
-                        new_sock << result;
-                    }
-                }
-            }
-            catch ( std::exception& e) {
-                std::cerr << e.what() << std::endl;
-            }
+            Server::communicate(new_sock);
         }
     }
     catch ( std::exception& e )
@@ -56,24 +30,46 @@ void Server::serve(){
 /*
 
 */
-std::string Server::communicate(int commandId, int delay, bool repeat){
-    std::string data;
+void Server::communicate(ServerSocket& sock){
+    try
+    {
+        while ( true )
+        {
+            vector<byte> data, time;
+            std::string response;
+            int secondsDelay = 0;
 
-    switch (commandId){
-        case 1:
-            data = Server::getTime();
-            break;
-        case 2:
-            data = Server::getOSVersion();
-            break;
-        case 3:
-            data = Server::getHostsFile();
-            break;
-        default:
-            break;
+            std::basic_string<char> result;
+            sock >> data;
+
+            time = {data.begin() + 2, data.end()};
+            secondsDelay = base256ToInt(time);
+
+            switch (data[0]){
+                case 1:
+                    response = Server::getTime();
+                    break;
+                case 2:
+                    response = Server::getOSVersion();
+                    break;
+                case 3:
+                    response = Server::getHostsFile();
+                    break;
+                default:
+                    break;
+            }
+
+            sock << response;
+
+            while(data[1] != 0){
+                std::this_thread::sleep_for(std::chrono::seconds(secondsDelay));
+                sock << response;
+            }
+        }
     }
-
-    return data;
+    catch ( std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 /*

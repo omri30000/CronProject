@@ -28,10 +28,10 @@ void Client::communicate(int port){
         {
             client_socket << this->createMessage();
             client_socket >> reply;
-            std::cout << "We received this response from the server:\n\"" << reply << "\"\n";
+            std::cout << "Server> " << reply << std::endl;
             while (this->m_repeat){
                 client_socket >> reply;
-                std::cout << "We received this response from the server:\n\"" << reply << "\"\n";
+                std::cout << "Server> " << reply << std::endl;
             }
         }
         catch ( std::exception& e )
