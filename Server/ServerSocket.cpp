@@ -3,12 +3,14 @@
 //
 
 #include "ServerSocket.h"
+
+#include <utility>
 #include "SocketException.h"
 
-ServerSocket::ServerSocket (int port)
+ServerSocket::ServerSocket (std::string ip, int port)
 {
     Socket::create();
-    Socket::bind (port);
+    Socket::bind (ip, port);
     Socket::listen();
 }
 

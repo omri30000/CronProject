@@ -2,10 +2,12 @@
 // Created by Omri Zaiman on 12/05/2021.
 //
 
+#include <filesystem>
 #include "Server.h"
 
-Server::Server(int port){
+Server::Server(std::string ip, int port){
     this->listeningPort = port;
+    this->m_ip = ip;
 
     //initialize thread pool
     for(int i = 0; i < threadsAmount; i++){
@@ -19,7 +21,7 @@ void Server::serve(){
     try
     {
         // Create the socket
-        ServerSocket listenSock (this->listeningPort);
+        ServerSocket listenSock (this->m_ip, this->listeningPort);
 
         while (true)
         {

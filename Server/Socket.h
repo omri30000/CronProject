@@ -32,7 +32,7 @@ public:
 
     // Server initialization
     void create() noexcept(false);
-    void bind(int port) noexcept(false);
+    void bind(const std::string ip, int port) noexcept(false);
     void listen() const noexcept(false);
     void accept(Socket&) const noexcept(false);
 

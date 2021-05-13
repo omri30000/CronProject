@@ -31,10 +31,10 @@ void Socket::create()
 }
 
 
-void Socket::bind (int port)
+void Socket::bind (const std::string ip, int port)
 {
     m_addr.sin_family = AF_INET;
-    m_addr.sin_addr.s_addr = INADDR_ANY;
+    m_addr.sin_addr.s_addr = inet_addr(ip.c_str());
     m_addr.sin_port = htons(port);
 
     int bind_return = ::bind (m_sock,(struct sockaddr*) &m_addr,sizeof(m_addr));

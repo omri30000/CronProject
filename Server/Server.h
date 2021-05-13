@@ -23,7 +23,7 @@
 
 class Server {
 public:
-    explicit Server(int port) noexcept(false);
+    explicit Server(std::string ip, int port) noexcept(false);
     void serve() noexcept(false);
 
 protected:
@@ -33,6 +33,7 @@ protected:
     std::queue<std::shared_ptr<ServerSocket>> connections;
     std::vector<std::thread*> pool;
     int listeningPort;
+    std::string m_ip;
 
     [[noreturn]] void threadFunction();
     static void communicate(std::shared_ptr<ServerSocket> sock);
