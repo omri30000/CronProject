@@ -3,7 +3,7 @@ Omri Zaiman's application task for Aqua Security. Client and server programs tha
 
 ## How to use?
 In order to use the engine, follow the instructions:
-1. Make sure that the configuration files of the server and client are modified and the server is up.
+1. Modify the PORT and IP in the server and client's main.cpp files (Optional - for remote hosting) and make sure that the server is up.
 2. Run the client program in the terminal using the following format: "./Client --command-id <x> --delay-factor <y> --repeat <z>". <br>
    Example: "./Client --command-id 1 --delay-factor 30 --repeat true"
     * x - number between 1 and 3, the identifier of the command.
@@ -22,5 +22,4 @@ describe
 The server is capble of communicating with a limited amount of clients simultaneously, that amount can be modified via the server's configuration file. Let N be the maximum amount of clients. When being run, the server creates N threads that can accept clients into a conversation. When there are already N active clients, the N+1th client will wait until another one will disconnect. Once disconnected, the thread that was responsible for this client will be able to take care of the new one.
 
 ## Beyond requirements features
-* Configuration files written in JSON.
 * default parameters.
