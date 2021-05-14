@@ -6,11 +6,11 @@ The project was written in Jetbrain's Clion environment on Linux Ubuntu 20.04.1.
 ## How to use?
 In order to use the engine, follow the instructions:
 1. Modify the PORT and IP in the server and client's main.cpp files (Optional - for remote hosting) and make sure that the server is up.
-2. Run the client program in the terminal using the following format: "./Client --command-id <x> --delay-factor <y> --repeat <z>". <br>
+2. Run the client program in the terminal using the following format: "./Client --command-id X--delay-factor Y --repeat Z". <br>
    Example: "./Client --command-id 1 --delay-factor 30 --repeat true"
-    * x - number between 1 and 3, the identifier of the command.
-    * y - number between 0 and 4294967296, the delay in which the server will respond (in seconds).
-    * z - true/false, determines whether the response have to be repeatitive.
+    * X - number between 1 and 3, the identifier of the command.
+    * Y - number between 0 and 4294967296, the delay in which the server will respond (in seconds).
+    * Z - true/false, determines whether the response have to be repeatitive.
 
 #### Supported commands
 --comand-id 1 : Get server time <br>
