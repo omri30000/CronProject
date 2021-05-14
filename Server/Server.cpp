@@ -7,6 +7,7 @@ Server::Server(std::string ip, int port, int clientsAmount){
     this->m_threadsAmount = clientsAmount;
     this->m_listeningPort = port;
     this->m_ip = ip;
+    this->m_isReady = false;
 
     //initialize thread m_pool
     for(int i = 0; i < this->m_threadsAmount; i++){
@@ -36,6 +37,7 @@ void Server::serve(){
             {
                 std::lock_guard<std::mutex> lock(m_mutex);
                 this->m_connections.push(pNewSock);
+                this->m_isReady = true;
             }
 
             this->m_cv.notify_one();
@@ -53,6 +55,7 @@ input: the conversation socket with the client
 output: none
 */
 void Server::communicate(std::shared_ptr<ServerSocket> sock){
+    const int OFFSET = 2; // the offset of the delay in the request of the protocol
     try
     {
         while (true)
@@ -64,17 +67,17 @@ void Server::communicate(std::shared_ptr<ServerSocket> sock){
             std::basic_string<char> result;
             *sock >> data;
 
-            time = {data.begin() + 2, data.end()};
+            time = {data.begin() + OFFSET, data.end()};
             secondsDelay = base256ToInt(time);
 
             switch (data[0]){
-                case 1:
+                case TIME:
                     response = Server::getTime();
                     break;
-                case 2:
+                case OS_VERSION:
                     response = Server::getOSVersion();
                     break;
-                case 3:
+                case HOSTS_FILE:
                     response = Server::getHostsFile();
                     break;
                 default:
@@ -160,7 +163,8 @@ output: none
     while (true){
         std::unique_lock<std::mutex> lock(m_mutex);
         if (this->m_connections.empty()){
-            m_cv.wait(lock);
+            m_cv.wait(lock, [this]{return m_isReady;});
+            this->m_isReady = false;
         }
 
         std::shared_ptr<ServerSocket> sock = this->m_connections.front();

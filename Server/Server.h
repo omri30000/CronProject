@@ -20,6 +20,8 @@
 
 #include "ServerSocket.h"
 
+enum commands {TIME = 1, OS_VERSION = 2, HOSTS_FILE = 3};
+
 class Server {
 public:
     explicit Server(std::string ip, int port, int clientsAmount) noexcept(false);
@@ -28,6 +30,7 @@ public:
 protected:
     std::mutex m_mutex;
     std::condition_variable m_cv;
+    bool m_isReady; // tells whether the condition variable is available
 
     std::queue<std::shared_ptr<ServerSocket>> m_connections;
     std::vector<std::shared_ptr<std::thread>> m_pool;
