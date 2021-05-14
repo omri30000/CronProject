@@ -10,7 +10,7 @@ In order to use the engine, follow the instructions:
    Example: "./Client --command-id 1 --delay-factor 30 --repeat true"
     * X - number between 1 and 3, the identifier of the command.
     * Y - number between 0 and 4294967296, the delay in which the server will respond (in seconds).
-    * Z - true/false, determines whether the response have to be repeatitive.
+    * Z - true/false, determines whether the response has to be repeatitive.
 
 #### Supported commands
 --comand-id 1 : Get server time <br>
@@ -19,10 +19,10 @@ In order to use the engine, follow the instructions:
 
 ## Application layer protocol
 ### Request (client to server)
-a request from a client to the server is basically a buffer of 6 bytes (with indexes 0 to 5).
+a request from a client to the server is basically a buffer of 6 bytes (with indexes 0 to 5):
 * index 0 - a byte represents the command identifier.
-* index 1 - a byte which determines whether the response should be repeatitive (0 - false, 1 - true).
-* index 2 to 5 - 4 bytes represents the required delay (in seconds).
+* index 1 - a byte determines whether the response should be repeatitive (0 - false, 1 - true).
+* index 2 to 5 - 4 bytes represents the required delay time (in seconds).
 
 For example: 
 <br>
@@ -44,3 +44,10 @@ I would like to deliver the hosts file from the server as a file and not as a st
 
 ## Self-implemented thread-pool
 The server is capble of communicating with a limited amount of clients simultaneously. Let N be the maximum amount of clients. When being run, the server creates N threads that can accept clients into a conversation. When there are already N active clients, the N+1th client will wait until another one will disconnect. Once disconnected, the thread that was responsible for this client will be able to take care of the new one.
+
+
+## Future plans
+* In the near future I am planning on upgrading the request and response in the protocol to consume less memory (less bytes) and be encrypted.
+* I would like to deliver the hosts file from the server as a file and not as a string. Than the client will be able to easily save the file in it's hard drive.
+* I would like to allow a user to use the client with default parameters, so that he will not have to specify all the flags.
+
